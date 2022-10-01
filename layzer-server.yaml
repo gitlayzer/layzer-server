@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: layzer-server
+  labels:
+    app: layzer-server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: layzer-server
+  namespace: layzer-server
+  labels:
+    app: layzer-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: layzer-server
+  template:
+    metadata:
+      labels:
+        app: layzer-server
+    spec:
+      containers:
+      - name: layzer-server
+        image: ccr.ccs.tencentyun.com/layzer/layzer-server:v0.0.2
+        ports:
+        - name: http 
+          containerPort: 8080
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: layzer-server
+  namespace: layzer-server
+  labels:
+    app: layzer-server
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: http
+  selector:
+    app: layzer-server
