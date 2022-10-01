@@ -25,6 +25,6 @@ func PostHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "name is empty"})
 		return
 	} else {
-		c.JSON(http.StatusOK, gin.H{"name": json})
+		c.JSON(http.StatusOK, gin.H{"data": json})
 	}
 }
